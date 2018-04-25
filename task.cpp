@@ -45,10 +45,8 @@ float findStep(int a, int b, int numberOfSteps) {
 float calculateIntegralTrapese(int a, int b, float step) {
 	float sum = (f(a) + f(b)) / 2.00;
 
-	for (float i = a + step; i <= b - step; i += step) {
-		cout << i << ' ' << sum << '\n';
+	for (float i = a + step; i <= b - step; i += step) 
 		sum += f(i);
-	};
 
 	return sum * step;
 }
@@ -60,25 +58,22 @@ float calculateTrapezeError(int a, int b, float step) {
 //task3
 //Simpson Method
 float calculateIntegralSimpson(int a, int b, float step){
-	float sum = (f(a) + f(b)) / 2.00;
-	float i = a + step;
+	float sum = 0.0;
+	
+	for (float i = a; i < b; i += 2 * step) 
+		sum += f(i) + 4 * f(i + step) + f(i + 2 * step);
 
-	while (i <= b - step) {
-		sum += 2 * f(i);
-		cout << i << ' ' << sum << '\n';
-		i += step;
-		sum +=  f(i);
-		cout << i <<  ' ' << sum << '\n';
-		i += step;
-	};
-
-	return 2.00 * sum * step / 3.00;
+	return sum * step / 3.00;
 }
 
 float calculateSimpsonError(int a, int b, float step) {
 	return abs(calculateIntegralSimpson(a, b, step) - calculateIntegralSimpson(a, b, 2 * step)) / 15.00;
 }
 
+//task 4
+float newtoneLeibnizCalculation(int a, int b) {
+	return pow(b, 2) / 2.00 - 0.5 * log(pow(b, 2) + 1) - (pow(a, 2) / 2.00 - 0.5 * log(pow(a, 2) + 1));
+}
 
 int main()
 {
@@ -92,8 +87,8 @@ int main()
 
 	//task2
 	cout << "Value calculated by trapeze method: " << calculateIntegralTrapese(a, b, step) << " +- " << calculateTrapezeError(a, b, step) << endl;
-	cout << "Value calculated by Simpson method: " << calculateIntegralSimpson(a, b, step / 100) << " +- " << calculateSimpsonError(a, b, step / 100) << endl;
-
+	cout << "Value calculated by Simpson method: " << calculateIntegralSimpson(a, b, step) << " +- " << calculateSimpsonError(a, b, step) << endl;
+	cout << "true Value is: " << newtoneLeibnizCalculation(a, b) << endl;
 	system("pause");
     return 0;
 }
